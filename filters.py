@@ -10,6 +10,23 @@ def open_main_window():
     main_window()
 
 # Define the image processing functions
+def apply_lpf():
+    global original_image
+    global current_image
+    
+    # Convert the image to grayscale
+    gray_image = cv2.cvtColor(np.array(original_image), cv2.COLOR_RGB2GRAY)
+    
+    # Apply Gaussian blur
+    blurred_image = cv2.GaussianBlur(gray_image, (5, 5), 0)
+    
+    # Convert back to RGB
+    lpf_image_rgb = cv2.cvtColor(blurred_image, cv2.COLOR_GRAY2RGB)
+    
+    # Update the current image
+    current_image = ImageTk.PhotoImage(image=Image.fromarray(lpf_image_rgb))
+    image_label.configure(image=current_image)
+
 def apply_hpf():
     global original_image
     global current_image
@@ -95,15 +112,16 @@ def filters_window():
 
     # Create a frame for buttons
     button_frame = ttk.Frame(filters_win)
-    button_frame.pack(side=tk.LEFT, fill=tk.Y, padx=(110, 70), pady=80)
+    button_frame.pack(side=tk.LEFT, fill=tk.Y, padx=(110, 70), pady=55)
 
 
     # Create buttons
-    button1 = ttk.Button(button_frame, text="HPF", style="Fancy.TButton", command=apply_hpf)
-    button2 = ttk.Button(button_frame, text="Mean Filter", style="Fancy.TButton", command=apply_mean_filter)
-    button3 = ttk.Button(button_frame, text="Median Filter", style="Fancy.TButton", command=apply_median_filter)
-    button4 = ttk.Button(button_frame, text="Original Image", style="Fancy.TButton", command=get_original_image)
-    button5 = ttk.Button(button_frame, text="Back To Main", style="Fancy.TButton", command= open_main_window)
+    button1 = ttk.Button(button_frame, text="LPF", style="Fancy.TButton", command=apply_lpf)
+    button2 = ttk.Button(button_frame, text="HPF", style="Fancy.TButton", command=apply_hpf)
+    button3 = ttk.Button(button_frame, text="Mean Filter", style="Fancy.TButton", command=apply_mean_filter)
+    button4 = ttk.Button(button_frame, text="Median Filter", style="Fancy.TButton", command=apply_median_filter)
+    button5 = ttk.Button(button_frame, text="Original Image", style="Fancy.TButton", command=get_original_image)
+    button6 = ttk.Button(button_frame, text="Back To Main", style="Fancy.TButton", command= open_main_window)
 
     # Pack buttons
     button1.pack(fill=tk.X, pady=10)
@@ -111,6 +129,7 @@ def filters_window():
     button3.pack(fill=tk.X, pady=10)
     button4.pack(fill=tk.X, pady=10)
     button5.pack(fill=tk.X, pady=10)
+    button6.pack(fill=tk.X, pady=10)
 
     # Create a frame for the image
     image_frame = tk.Frame(filters_win, bd=2, relief="ridge")  # Add a dashed border with a little padding

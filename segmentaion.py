@@ -105,15 +105,15 @@ def segmentation_window():
 
     # Create buttons
     button1 = ttk.Button(button_frame, text="Threshold Segmentation", style="Fancy.TButton", command=apply_threshold_segmentation)
-    button2 = ttk.Button(button_frame, text="Edge Detection Segmentation", style="Fancy.TButton", command=apply_edge_detection_segmentation)
-    button3 = ttk.Button(button_frame, text="Original Image", style="Fancy.TButton", command=get_original_image)
-    button4 = ttk.Button(button_frame, text="Back To Main", style="Fancy.TButton", command=open_main_window)
+    button3 = ttk.Button(button_frame, text="Edge Detection Segmentation", style="Fancy.TButton", command=apply_edge_detection_segmentation)
+    button4 = ttk.Button(button_frame, text="Original Image", style="Fancy.TButton", command=get_original_image)
+    button5 = ttk.Button(button_frame, text="Back To Main", style="Fancy.TButton", command=open_main_window)
 
     # Pack buttons
     button1.pack(fill=tk.X, pady=10)
-    button2.pack(fill=tk.X, pady=10)
     button3.pack(fill=tk.X, pady=10)
     button4.pack(fill=tk.X, pady=10)
+    button5.pack(fill=tk.X, pady=10)
 
     # Create a frame for the image
     image_frame = tk.Frame(segmentation_win, bd=2, relief="ridge")  # Add a dashed border with a little padding

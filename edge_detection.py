@@ -29,13 +29,26 @@ def apply_prewitt_edge_detector():
     global current_image
     # Convert the image to grayscale
     gray_image = cv2.cvtColor(np.array(original_image), cv2.COLOR_RGB2GRAY)
-    # Apply Prewitt edge detector
-    prewitt_x = cv2.Sobel(gray_image, cv2.CV_64F, 1, 0, ksize=3)
-    prewitt_y = cv2.Sobel(gray_image, cv2.CV_64F, 0, 1, ksize=3)
-    prewitt_magnitude = np.sqrt(prewitt_x**2 + prewitt_y**2)
-    prewitt_image = cv2.normalize(prewitt_magnitude, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    
+    # Define the Prewitt kernel for horizontal edge detection
+    prewitt_kernel_x = np.array([[-1, 0, 1],
+                                  [-1, 0, 1],
+                                  [-1, 0, 1]])
+
+    # Define the Prewitt kernel for vertical edge detection
+    prewitt_kernel_y = np.array([[-1, -1, -1],
+                                  [0, 0, 0],
+                                  [1, 1, 1]])
+
+    # Apply convolution using the Prewitt kernels
+    horizontal_edges = cv2.filter2D(gray_image, -1, prewitt_kernel_x)
+    vertical_edges = cv2.filter2D(gray_image, -1, prewitt_kernel_y)
+
+    # Combine horizontal and vertical edges
+    prewitt_edges = cv2.addWeighted(cv2.convertScaleAbs(horizontal_edges), 0.5, cv2.convertScaleAbs(vertical_edges), 0.5, 0)
+
     # Update the current image
-    current_image = ImageTk.PhotoImage(image=Image.fromarray(prewitt_image))
+    current_image = ImageTk.PhotoImage(image=Image.fromarray(prewitt_edges))
     image_label.configure(image=current_image)
 
 
